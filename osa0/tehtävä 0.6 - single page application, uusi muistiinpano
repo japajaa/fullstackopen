@@ -1,0 +1,19 @@
+title Single page application, uuden muistiinpanon lisääminen
+
+note over selain:
+selain lisää uuden muistiinpanon aiemmin 
+palvelimelta saatuun JSON-taulukkoon ja 
+suorittaa tapahtumankäsittelijän
+joka renderöi muistiinpanot näytölle
+end note
+
+selain->palvelin: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note_spa
+
+note over palvelin:
+palvelin alkaa suorittaa js-koodia
+joka lisää JSON-muotoisen muistiinpanon
+muistiinpanot sisältävään taulukkoon
+palvelimella
+end note
+
+palvelin-->selain: palvelin kuittaa "note created"
