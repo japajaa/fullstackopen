@@ -20,7 +20,7 @@ const Blog = ({ blog }) => {
 
   const handleLike = async (event) => {
     event.preventDefault()
-    console.log(`Going to add like to ${blog.title}`)
+    event.stopPropagation()
 
     const updatedBlog = {
       user: blog.user ? blog.user.id : false,
@@ -30,12 +30,19 @@ const Blog = ({ blog }) => {
       url: blog.url
     }
 
-    console.log(updatedBlog, blog.id)
-
     try {
       const result = await blogService.update(blog.id, updatedBlog)
       blog.likes = blog.likes + 1
-      console.log(result)
+    } catch (exception) {
+     
+    }  
+  }
+
+  const handleDelete = async (event) => {
+    event.preventDefault()
+
+    try {
+      const result = await blogService.deleteBlog(blog.id)
     } catch (exception) {
      
     }  
@@ -51,6 +58,7 @@ const Blog = ({ blog }) => {
       <span>{blog.likes} likes<button onClick={handleLike}>like</button></span>
       <br></br>
       <span>added by { blog.user ? blog.user.name : 'unknown user' }</span>
+      <button onClick={handleDelete}>delete</button>
       </div>
     </div>
   </div>
