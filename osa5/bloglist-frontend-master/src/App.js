@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import './App.css';
+import React, { useState, useEffect } from 'react'
+import './App.css'
 import blogService from './services/blogs.js'
 import loginService from './services/login.js'
 import Blog from './components/Blog.js'
@@ -7,11 +7,11 @@ import CreateForm from './components/CreateForm.js'
 
 function App() {
 
-  const [username, setUsername] = useState('') 
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [title, setTitle] = useState('') 
-  const [author, setAuthor] = useState('') 
-  const [url, setUrl] = useState('')  
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
   const [user, setUser] = useState(null)
   const [blogs, setBlogs] = useState([])
   const [notificationMessage, setNotificationMessage] = useState(null)
@@ -38,11 +38,11 @@ function App() {
     if (message === null) {
       return null
     }
-  
+
     const notificationStyle = {
       color: color
     }
-  
+
     return (
       <div style={notificationStyle} className="notification">
         {message}
@@ -71,7 +71,7 @@ function App() {
       setTimeout(() => {
         setNotificationMessage(null)
       }, 5000)
-      
+
     }
   }
 
@@ -99,7 +99,7 @@ function App() {
         setNotificationMessage(null)
       }, 5000)
     } catch (exception) {
-     
+      console.log(exception)
     }
 
     setTitle('')
@@ -107,31 +107,31 @@ function App() {
     setUrl('')
   }
 
-const createForm = () => {
-  const hideWhenVisible = { display: newBlogVisible ? 'none' : '' }
-  const showWhenVisible = { display: newBlogVisible ? '' : 'none' }
+  const createForm = () => {
+    const hideWhenVisible = { display: newBlogVisible ? 'none' : '' }
+    const showWhenVisible = { display: newBlogVisible ? '' : 'none' }
 
-  return (
-    <div>
-    <div style={hideWhenVisible}>
-      <button onClick={() => setNewBlogVisible(true)}>new blog</button>
-    </div>
-    <div style={showWhenVisible}>
-<CreateForm
-        title={title}
-        author={author}
-        url={url}
-        handleTitleChange={({ target }) => setTitle(target.value)}
-        handleAuthorChange={({ target }) => setAuthor(target.value)}
-        handleUrlChange={({ target }) => setUrl(target.value)}
-        handleCreate={handleCreate}
-      />
-      <button onClick={() => setNewBlogVisible(false)}>cancel</button>
-    </div>
-  </div>
+    return (
+      <div>
+        <div style={hideWhenVisible}>
+          <button onClick={() => setNewBlogVisible(true)}>new blog</button>
+        </div>
+        <div style={showWhenVisible}>
+          <CreateForm
+            title={title}
+            author={author}
+            url={url}
+            handleTitleChange={({ target }) => setTitle(target.value)}
+            handleAuthorChange={({ target }) => setAuthor(target.value)}
+            handleUrlChange={({ target }) => setUrl(target.value)}
+            handleCreate={handleCreate}
+          />
+          <button onClick={() => setNewBlogVisible(false)}>cancel</button>
+        </div>
+      </div>
 
-  )
-}
+    )
+  }
 
   if (user === null) {
     return (
@@ -139,37 +139,37 @@ const createForm = () => {
         <Notification message={notificationMessage} color={notificationColor}/>
         <h2>Log in to application</h2>
         <form onSubmit={handleLogin}>
-      <div>
+          <div>
         username
-          <input
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
-        />
-      </div>
-      <div>
+            <input
+              type="text"
+              value={username}
+              name="Username"
+              onChange={({ target }) => setUsername(target.value)}
+            />
+          </div>
+          <div>
         password
-          <input 
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button type="submit">login</button>
-    </form> 
+            <input
+              type="password"
+              value={password}
+              name="Password"
+              onChange={({ target }) => setPassword(target.value)}
+            />
+          </div>
+          <button type="submit">login</button>
+        </form>
       </div>
     )
   }
 
   return (
     <div>
-<Notification message={notificationMessage} color={notificationColor}/>
+      <Notification message={notificationMessage} color={notificationColor}/>
       <h2>blogs</h2>
       <div>
         <p>{user.name} logged in<button onClick={handleLogout}>Logout</button></p>
-        </div>
+      </div>
       {createForm()}
       {blogs.sort((a, b) => b.likes - a.likes ).map(blog =>
         <Blog user={user} blogs={blogs} setBlogs={setBlogs} key={blog.id} blog={blog} />
@@ -178,4 +178,4 @@ const createForm = () => {
   )
 }
 
-export default App;
+export default App
