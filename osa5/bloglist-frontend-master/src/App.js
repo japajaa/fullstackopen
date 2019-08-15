@@ -172,7 +172,7 @@ const createForm = () => {
         </div>
       {createForm()}
       {blogs.sort((a, b) => b.likes - a.likes ).map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog user={user} blogs={blogs} setBlogs={setBlogs} key={blog.id} blog={blog} />
       )}
     </div>
   )

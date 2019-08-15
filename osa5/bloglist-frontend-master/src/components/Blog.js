@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import blogService from '../services/blogs'
 
-const Blog = ({ blog }) => {
+const Blog = ({ user, blog, blogs, setBlogs }) => {
   const [visible, setVisible] = useState(false)
 
   const blogStyle = {
@@ -13,9 +13,15 @@ const Blog = ({ blog }) => {
   }
 
   const showWhenVisible = { display: visible ? '' : 'none' }
+  const showIfUser = {display: user.username  === blog.user.username ? '' : 'none' }
+
 
   const toggleVisibility = () => {
     setVisible(!visible)
+    console.log(showIfUser)
+    console.log(user.username)
+  console.log(blog.user.username)
+  console.log(blog)
   }
 
   const handleLike = async (event) => {
@@ -33,6 +39,8 @@ const Blog = ({ blog }) => {
     try {
       const result = await blogService.update(blog.id, updatedBlog)
       blog.likes = blog.likes + 1
+      const theOne = blogs.find(n => n.id === blog.id)
+      setBlogs(blogs.filter(n => n.id !== blog.id).concat(result))
     } catch (exception) {
      
     }  
@@ -40,12 +48,16 @@ const Blog = ({ blog }) => {
 
   const handleDelete = async (event) => {
     event.preventDefault()
-
-    try {
-      const result = await blogService.deleteBlog(blog.id)
-    } catch (exception) {
+    const result = window.confirm(`remove blog ${blog.title} by ${blog.author}`)
+    
+    if (result) {
+      try {
+        const result = await blogService.deleteBlog(blog.id)
+        setBlogs(blogs.filter(n => n.id !== blog.id))
+      } catch (exception) {
      
-    }  
+      } 
+    } 
   }
 
   return (
@@ -58,7 +70,7 @@ const Blog = ({ blog }) => {
       <span>{blog.likes} likes<button onClick={handleLike}>like</button></span>
       <br></br>
       <span>added by { blog.user ? blog.user.name : 'unknown user' }</span>
-      <button onClick={handleDelete}>delete</button>
+      <button style={showIfUser} onClick={handleDelete}>delete</button>
       </div>
     </div>
   </div>
