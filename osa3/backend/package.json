@@ -1,0 +1,35 @@
+{
+  "name": "osa3backend",
+  "version": "1.0.0",
+  "description": "backend note-sovellukselle",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "watch": "nodemon index.js",
+    "build2:ui": "rmdir /s /q build && cd ../osa2full/puhelinluettelo/ && npm run build --prod && xcopy build ..\\..\\osa3backend\\build\\ /s",
+    "build:ui": "rmdir /s /q build && cd ../frontend/ && npm run build --prod && xcopy build ..\\osa3\\build\\ /s",
+    "deploy": "git push https://git.heroku.com/arcane-bayou-94754.git master",
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy",
+    "logs:prod": "heroku logs --tail",
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "osa3backend"
+  },
+  "author": "Jari Reponen",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^6.1.0",
+    "nodemon": "^1.19.1"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.6.9",
+    "mongoose-unique-validator": "^2.0.3",
+    "morgan": "^1.9.1"
+  }
+}

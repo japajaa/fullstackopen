@@ -1,0 +1,1 @@
+The application is hosted at Heroku in address: https://arcane-bayou-94754.herokuapp.com/
