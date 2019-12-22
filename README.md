@@ -5,6 +5,6 @@ Version history:
 2019-12-21 - Osan 1 tehtävien tallennus
 2019-12-21 - Osan 2 tehtävien tallennus
 2019-12-21 - Osan 3 tehtävien tallennus
-
+2019-12-22 - Osan 4 tehtävien tallennus
 
 Osan 3 app on herokussa osoitteessa: https://arcane-bayou-94754.herokuapp.com/
