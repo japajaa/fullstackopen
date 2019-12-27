@@ -5,11 +5,13 @@ const dummy = (blogs) => {
   
 const totalLikes = (blogs) => {
   const likeArray = blogs.map(blog => blog.likes)
-  //const total = likeArray.reduce((x, y) => x + y)
 
-  return likeArray.length === 0
-  ? 0 
-  : likeArray.reduce((x, y) => x + y)
+const result = likeArray.length === 0
+? 0 
+: likeArray.reduce((x, y) => x + y) 
+
+return result
+
 }
 
 const favoriteBlog = (blogs) => {
@@ -31,7 +33,8 @@ const mostBlogs = (blogs) => {
     const _ = require('lodash');
 
    let grouped = _.countBy(blogs, 'author')
-console.log(grouped)
+
+var maxKey = _.max(Object.keys(grouped), o => grouped[o]);
 
 
 const blogger ={
@@ -39,8 +42,23 @@ author: "Japa",
 blogs: "7"
 }
 
-let result = 0
-return result
+return maxKey
+}
+
+
+const mostLikes = (blogs) => {
+  const _ = require('lodash');
+
+ let grouped = _.groupBy(blogs, 'author')
+
+const niceList = [];
+
+for (let [key, value] of Object.entries(grouped)) {
+
+niceList.push({author: key, likes: _.sumBy(value, 'likes')})
+}
+
+return _.maxBy(niceList, 'likes')
 }
 
 
@@ -48,5 +66,6 @@ module.exports = {
     dummy,
     totalLikes,
     favoriteBlog,
-    mostBlogs
+    mostBlogs,
+    mostLikes
   }

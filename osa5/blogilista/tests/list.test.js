@@ -134,16 +134,38 @@ describe('total likes', () => {
             url: "http://mokkilaiset.blogspot.com",
             likes: 6,
             id: "5d51640897e8e57ae49dbc41"
-            }
+            },
+            {
+              title: "Mökkiläiset66",
+              author: "Japa",
+              url: "http://mokkilaiset.blogspot.com",
+              likes: 66,
+              id: "5d515a32fcdaf931c0e7f467"
+              },
+              {
+              title: "Mökkiläiset666",
+              author: "Japa",
+              url: "http://mokkilaiset.blogspot.com",
+              likes: 666,
+              id: "5d515aa9701af477ec764f1e"
+              },
+              {
+              title: "Moekkiläiset6",
+              author: "FeikkiJapa",
+              url: "http://mokkilaiset.blogspot.com",
+              likes: 6,
+              id: "5d51640897e8e57ae49dbc41"
+              }
     ]
 
-    const favorite ={
-        title: "Mökkiläiset666",
-    author: "Japa",
-    url: "http://mokkilaiset.blogspot.com",
-    likes: 666,
-    id: "5d515aa9701af477ec764f1e"
-    }
+    const oneBlog = [
+      {
+          title: "Mökkiläiset66",
+          author: "Tartsa",
+          url: "http://mokkilaiset.blogspot.com",
+          likes: 66,
+          id: "5d515a32fcdaf931c0e7f467"
+          }]
 
 /*
     test('of empty list is empty object', () => {
@@ -156,8 +178,88 @@ describe('total likes', () => {
  
     */
     test('most blogs', () => {
-      expect(listHelper.mostBlogs(blogs)).toEqual(0)
+      expect(listHelper.mostBlogs(blogs)).toEqual('Japa')
     })
 
+
+    test('only one blog', () => {
+      expect(listHelper.mostBlogs(oneBlog)).toEqual('Tartsa')
+    })
+
+    test('empty list', () => {
+      expect(listHelper.mostBlogs([])).toEqual(undefined)
+    })
+  })
+
+
+
+
+  describe('most likes', () => {
+
+    const blogs = [
+        {
+            title: "Mökkiläiset66",
+            author: "Japa",
+            url: "http://mokkilaiset.blogspot.com",
+            likes: 66,
+            id: "5d515a32fcdaf931c0e7f467"
+            },
+            {
+            title: "Mökkiläiset666",
+            author: "Japa",
+            url: "http://mokkilaiset.blogspot.com",
+            likes: 666,
+            id: "5d515aa9701af477ec764f1e"
+            },
+            {
+            title: "Moekkiläiset6",
+            author: "FeikkiJapa",
+            url: "http://mokkilaiset.blogspot.com",
+            likes: 6,
+            id: "5d51640897e8e57ae49dbc41"
+            },
+            {
+              title: "Mökkiläiset66",
+              author: "Japa",
+              url: "http://mokkilaiset.blogspot.com",
+              likes: 66,
+              id: "5d515a32fcdaf931c0e7f467"
+              },
+              {
+              title: "Mökkiläiset666",
+              author: "Japa",
+              url: "http://mokkilaiset.blogspot.com",
+              likes: 666,
+              id: "5d515aa9701af477ec764f1e"
+              },
+              {
+              title: "Moekkiläiset6",
+              author: "FeikkiJapa",
+              url: "http://mokkilaiset.blogspot.com",
+              likes: 6,
+              id: "5d51640897e8e57ae49dbc41"
+              }
+    ]
+
+    const oneBlog = [
+      {
+          title: "Mökkiläiset66",
+          author: "Tartsa",
+          url: "http://mokkilaiset.blogspot.com",
+          likes: 66,
+          id: "5d515a32fcdaf931c0e7f467"
+          }]
+
+    test('most likes', () => {
+      expect(listHelper.mostLikes(blogs)).toEqual({"author": "Japa", "likes": 1464})
+    })
+
+    test('only one blog', () => {
+      expect(listHelper.mostLikes(oneBlog)).toEqual({"author": "Tartsa", "likes": 66})
+    })
+
+    test('empty list', () => {
+      expect(listHelper.mostLikes([])).toEqual(undefined)
+    })
 
   })

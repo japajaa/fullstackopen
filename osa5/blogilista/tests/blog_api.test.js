@@ -26,6 +26,7 @@ const initialBlogs = [
     }
 ]
 
+
 beforeEach(async () => {
   await Blog.deleteMany({})
 
@@ -37,6 +38,8 @@ beforeEach(async () => {
 
   blogObject = new Blog(initialBlogs[2])
   await blogObject.save()
+
+
 })
 
 test('blogs are returned as json', async () => {
@@ -57,6 +60,27 @@ test('identifier is called id', async () => {
 
 
 test('a valid blog can be added ', async () => {
+
+  const newUser = {
+    name: "Aku Ankka",
+    username: "akuankk",
+    password: "IinesOnIhq"
+  }
+
+  await api
+    .post('/api/users')
+    .send(newUser)
+
+const user =
+{
+  "username": "akuankk",
+  "password": "IinesOnIhq"
+}
+
+const authResponse = await api
+.post('/api/login')
+.send(user)
+
   const newBlog = {
     title: "Added in test",
     author: "Test user",
@@ -66,6 +90,7 @@ test('a valid blog can be added ', async () => {
 
   await api
     .post('/api/blogs')
+    .set('Authorization', `bearer ${authResponse.body.token}`)
     .send(newBlog)
     .expect(200)
     .expect('Content-Type', /application\/json/)
@@ -82,18 +107,34 @@ test('a valid blog can be added ', async () => {
 
 test('if likes are not defined, likes are 0', async () => {
   const newBlog = {
-    title: "Added in test, with no likes",
+    title: "naonfa Added in test, with no likes",
     author: "Test user",
-    url: "http://testblog.blogspot.com"
+    url: "http://ftestblog.blogspot.com"
   }
+
+  const user =
+{
+  "username": "akuankk",
+  "password": "IinesOnIhq"
+}
+
+
+const authResponse = await api
+.post('/api/login')
+.send(user)
+
+
 
   await api
     .post('/api/blogs')
+    .set('Authorization', `bearer ${authResponse.body.token}`)
     .send(newBlog)
     .expect(200)
     .expect('Content-Type', /application\/json/)
 
     const response = await api.get('/api/blogs')
+
+    console.log(response.body)
     const likes = response.body.map(r => r.likes)
     
     expect(response.body.length).toBe(initialBlogs.length + 1)
@@ -101,6 +142,20 @@ test('if likes are not defined, likes are 0', async () => {
 })
 
 test('blog without title and/or url is not added', async () => {
+
+  const user =
+  {
+    "username": "akuankk",
+    "password": "IinesOnIhq"
+  }
+  
+  const authResponse = await api
+  .post('/api/login')
+  .send(user)
+  
+
+  
+
   const newBlogNoTitleOrUrl = {
     author: "Test user",
     likes: 7
@@ -120,16 +175,19 @@ test('blog without title and/or url is not added', async () => {
 
   await api
     .post('/api/blogs')
+    .set('Authorization', `bearer ${authResponse.body.token}`)
     .send(newBlogNoTitleOrUrl)
     .expect(400)
 
     await api
     .post('/api/blogs')
+    .set('Authorization', `bearer ${authResponse.body.token}`)
     .send(newBlogNoTitle)
     .expect(400)
 
     await api
     .post('/api/blogs')
+    .set('Authorization', `bearer ${authResponse.body.token}`)
     .send(newBlogNoUrl)
     .expect(400)
 
@@ -139,11 +197,38 @@ test('blog without title and/or url is not added', async () => {
 
 test('delete chosen blog', async () => {
 
+
+  const user =
+  {
+    "username": "akuankk",
+    "password": "IinesOnIhq"
+  }
+  
+  const authResponse = await api
+  .post('/api/login')
+  .send(user)
+  
+  const newBlog = {
+    title: "Added in test, with no likes",
+    author: "Aku Ankka",
+    url: "http://testblog.blogspot.com"
+  }
+
+  const newBlogCreated = await api
+    .post('/api/blogs')
+    .set('Authorization', `bearer ${authResponse.body.token}`)
+    .send(newBlog)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  
   const response = await api.get('/api/blogs')
-  const blogToDelete = response.body[0]
+  //const blogToDelete = response.body[0]
+  const blogToDelete = newBlogCreated.body
 
   await api
     .delete(`/api/blogs/${blogToDelete.id}`)
+    .set('Authorization', `bearer ${authResponse.body.token}`)
     .expect(204)
 
 

@@ -126,7 +126,7 @@ test('with password shorter than three are not added', async () => {
     const newUserShortPass3 = {
       name: "User with password with 3 characters",
       username: "shorty3",
-      password: "abc"
+      password: "abcd"
     }
 
     const responseAtStart = await api.get('/api/users')
@@ -149,11 +149,11 @@ test('with password shorter than three are not added', async () => {
     await api
     .post('/api/users')
     .send(newUserShortPass3)
-    .expect(400)
+    .expect(200)
 
     const responseAtEnd = await api.get('/api/users')
 
-    expect(responseAtStart.body.length).toBe(responseAtEnd.body.length)
+    expect(responseAtStart.body.length + 1).toBe(responseAtEnd.body.length)
 
 })
 

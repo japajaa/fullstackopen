@@ -3,9 +3,6 @@ import PropTypes from 'prop-types'
 
 const CreateForm = ({
   handleCreate,
-  handleTitleChange,
-  handleAuthorChange,
-  handleUrlChange,
   title,
   author,
   url
@@ -13,31 +10,15 @@ const CreateForm = ({
   <div>
     <form onSubmit={handleCreate}>
       <div>title
-        <input
-          key="titlekey"
-          type="text"
-          value={title}
-          name="title"
-          onChange={handleTitleChange}
-        />
+        <input  {...title} />
       </div>
       <div>
     author
-        <input
-          type="text"
-          value={author}
-          name="author"
-          onChange={handleAuthorChange}
-        />
+        <input  {...author} />
       </div>
       <div>
     url
-        <input
-          type="text"
-          value={url}
-          name="url"
-          onChange={handleUrlChange}
-        />
+        <input  {...url} />
       </div>
       <button type="submit">create</button>
     </form>
@@ -47,12 +28,9 @@ const CreateForm = ({
 CreateForm.propTypes = {
 
   handleCreate: PropTypes.func.isRequired,
-  handleTitleChange: PropTypes.func.isRequired,
-  handleAuthorChange: PropTypes.func.isRequired,
-  handleUrlChange: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired,
-  author: PropTypes.string.isRequired,
-  url: PropTypes.string.isRequired
+  title: PropTypes.object.isRequired,
+  author: PropTypes.object.isRequired,
+  url: PropTypes.object.isRequired
 
 }
 

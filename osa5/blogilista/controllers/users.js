@@ -25,7 +25,7 @@ usersRouter.post('/', async (request, response) => {
 
     if (!request.body.password || !request.body.name) {
       response.status(400).send({error: 'name, username or password is missing'})
-    } else if (request.body.password.length <= 3) {
+    } else if (request.body.password.length < 3) {
       response.status(400).send({error: 'minimum length for password is 3'})
     } else {
       const savedUser = await user.save()

@@ -33,22 +33,22 @@ test('renders content', () => {
 
 
 test('two clicks === two times FIRE!', () => {
-    const simpleBlog = {
-      title: 'Component testing is done with react-testing-library',
-      author: 'Japamies',
-      likes: 48
-    }
-  
-    const mockHandler = jest.fn()
-  
-    const { getByText } = render(
-      <SimpleBlog blog={simpleBlog} onClick={mockHandler}/>
-    )
+  const simpleBlog = {
+    title: 'Component testing is done with react-testing-library',
+    author: 'Japamies',
+    likes: 48
+  }
 
-    const button = getByText('like')
-    fireEvent.click(button)
-    fireEvent.click(button)
+  const mockHandler = jest.fn()
 
-    expect(mockHandler.mock.calls.length).toBe(2)
+  const { getByText } = render(
+    <SimpleBlog blog={simpleBlog} onClick={mockHandler}/>
+  )
 
-  })
+  const button = getByText('like')
+  fireEvent.click(button)
+  fireEvent.click(button)
+
+  expect(mockHandler.mock.calls.length).toBe(2)
+
+})

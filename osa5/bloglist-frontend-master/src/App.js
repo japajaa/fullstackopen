@@ -4,14 +4,15 @@ import blogService from './services/blogs.js'
 import loginService from './services/login.js'
 import Blog from './components/Blog.js'
 import CreateForm from './components/CreateForm.js'
+import { useField } from './hooks'
 
 function App() {
 
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+  const username = useField('text')
+  const password = useField('password')
+  const title = useField('text')
+  const author = useField('text')
+  const url = useField('text')
   const [user, setUser] = useState(null)
   const [blogs, setBlogs] = useState([])
   const [notificationMessage, setNotificationMessage] = useState(null)
@@ -56,16 +57,16 @@ function App() {
     event.preventDefault()
     try {
       const user = await loginService.login({
-        username, password,
+        username: username.value,
+        password: password.value,
       })
       window.localStorage.setItem(
         'loggedBlogappUser', JSON.stringify(user)
       )
       blogService.setToken(user.token)
       setUser(user)
-      setUsername('')
-      setPassword('')
     } catch (exception) {
+      console.log(exception)
       setNotificationColor('red')
       setNotificationMessage('wrong credentials')
       setTimeout(() => {
@@ -77,20 +78,18 @@ function App() {
 
   const handleLogout = (event) => {
     event.preventDefault()
-    console.log('logging out')
     setUser(null)
     window.localStorage.removeItem('loggedBlogappUser')
   }
 
   const handleCreate = async (event) => {
     event.preventDefault()
-    console.log('Going to create: ', title, author, url)
 
     try {
       const newBlog = await blogService.create({
-        title: title,
-        author: author,
-        url: url
+        title: title.value,
+        author: author.value,
+        url: url.value
       })
       setBlogs(blogs.concat(newBlog))
       setNotificationColor('green')
@@ -102,9 +101,17 @@ function App() {
       console.log(exception)
     }
 
-    setTitle('')
-    setAuthor('')
-    setUrl('')
+    title.onSubmit()
+    author.onSubmit()
+    url.onSubmit()
+  }
+
+  const cancelCreate = () => {
+    setNewBlogVisible(false)
+    title.onSubmit()
+    author.onSubmit()
+    url.onSubmit()
+
   }
 
   const createForm = () => {
@@ -114,19 +121,16 @@ function App() {
     return (
       <div>
         <div style={hideWhenVisible}>
-          <button onClick={() => setNewBlogVisible(true)}>new blog</button>
+          <button onClick={() => setNewBlogVisible(true)}>new note</button>
         </div>
         <div style={showWhenVisible}>
           <CreateForm
             title={title}
             author={author}
             url={url}
-            handleTitleChange={({ target }) => setTitle(target.value)}
-            handleAuthorChange={({ target }) => setAuthor(target.value)}
-            handleUrlChange={({ target }) => setUrl(target.value)}
             handleCreate={handleCreate}
           />
-          <button onClick={() => setNewBlogVisible(false)}>cancel</button>
+          <button onClick={() => cancelCreate()}>cancel</button>
         </div>
       </div>
 
@@ -141,21 +145,11 @@ function App() {
         <form onSubmit={handleLogin}>
           <div>
         username
-            <input
-              type="text"
-              value={username}
-              name="Username"
-              onChange={({ target }) => setUsername(target.value)}
-            />
+            <input  {...username} />
           </div>
           <div>
         password
-            <input
-              type="password"
-              value={password}
-              name="Password"
-              onChange={({ target }) => setPassword(target.value)}
-            />
+            <input  {...password} />
           </div>
           <button type="submit">login</button>
         </form>

@@ -1,7 +1,7 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
-import { 
-  render, waitForElement 
+import {
+  render, waitForElement
 } from '@testing-library/react'
 jest.mock('./services/blogs')
 import App from './App'
@@ -15,11 +15,10 @@ describe('<App />', () => {
 
     await waitForElement(
       () => component.getByText('login')
-    ) 
+    )
 
     const blogs = component.container.querySelectorAll('.blogHeader')
-    expect(blogs.length).toBe(0) 
-    // expectations here
+    expect(blogs.length).toBe(0)
   })
 
 
@@ -30,28 +29,27 @@ describe('<App />', () => {
       token: '1231231214',
       name: 'Donald Tester'
     }
-    
-    localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
+
+    localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
 
     const component = render(
       <App />
     )
-    const dummyUser = window.localStorage.getItem('loggedBlogAppUser')
-    console.log(dummyUser)
-    
+
+
+
     component.rerender(<App />)
 
     await waitForElement(
-      () => component.getByText('login')
-    ) 
+      () => component.getByText('blogs')
+    )
 
 
     const blogs = component.container.querySelectorAll('.blogHeader')
 
     expect(component.container).toHaveTextContent('Donald Tester logged in')
-    
-    expect(blogs.length).toBe(3) 
-    // expectations here
+
+    expect(blogs.length).toBe(3)
   })
 
 

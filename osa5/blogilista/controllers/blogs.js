@@ -29,7 +29,7 @@ blogsRouter.post('/', async (request, response) => {
       title: body.title,
       author: body.author,
       url: body.url,
-      likes: body.likes === undefined ? 0 : body.important,
+      likes: body.likes === undefined ? 0 : body.likes,
       user: user._id
     })
 
@@ -91,7 +91,7 @@ blogsRouter.put('/:id', async (request, response, next) => {
     likes: body.likes
   }
 
-  const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true }).populate('user', { username: 1, name: 1, id: 1 })
+  const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
   response.json(updatedBlog.toJSON())
 
 })
